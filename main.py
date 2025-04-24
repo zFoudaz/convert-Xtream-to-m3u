@@ -52,6 +52,7 @@ def run():
         buffer.write(line.encode("utf-8"))
 
     buffer.seek(0)
+    st.success(f'File created successfully with {len(lines)-1} channels')
     st.download_button(
     label=f"Download {file_name}.m3u",
     data=buffer,
