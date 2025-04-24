@@ -5,7 +5,7 @@ from requests.exceptions import RequestException
 from time import sleep
 
 lines=['#EXTM3U\n']
-XTREAM_HOST=st.text_input('Enter the host (ex: http://provider.co:80): ')
+XTREAM_HOST=st.text_input('Enter the host (ex: http://provider.co:80): ').strip()
 XTREAM_USERNAME=st.text_input('Enter your username: ')
 XTREAM_PASSWORD=st.text_input('Enter your password: ')
 choice=st.selectbox('Select the type of channels you want to download:', ('Bein Sports', 'All Channels', 'Sport Channels'))
@@ -61,4 +61,3 @@ def run():
 
 if st.button('save'):
     run()
-
