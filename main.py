@@ -3,6 +3,7 @@ import io
 from requests import get
 from requests.exceptions import RequestException
 from time import sleep
+import re
 
 lines=['#EXTM3U\n']
 XTREAM_HOST=st.text_input('Enter the host (ex: http://provider.co:80): ').strip()
@@ -36,11 +37,11 @@ def run():
 
     def condition(choice , channel):
         if choice == 1:
-            return 'Bein' in channel['name'] or 'SSC ' in channel['name'] or 'AD S' in channel['name'] or 'beIN' in channel['name'] or 'BEin' in channel['name']
+            return re.search(r'bein|ssc|AD |ADSport', channel['name'],re.IGNORECASE)
         elif choice==2:
             return True
         elif choice==3:
-            return 'Sport' in channel['name'] or '[SPO]' in channel['name'] or 'sport' in channel['name']
+            return re.search(r'sport', channel['name'], re.IGNORECASE)
 
     channels = get_xtream_channels()
     for channel in channels:
