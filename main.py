@@ -11,7 +11,7 @@ XTREAM_USERNAME=st.text_input('Enter your username: ')
 XTREAM_PASSWORD=st.text_input('Enter your password: ')
 choice=st.selectbox('Select the type of channels you want to download:', ('Bein Sports , SSC , AD', 'All Channels', 'Sport Channels'))
 
-if choice == 'Bein Sports':
+if choice == 'Bein Sports , SSC , AD':
     choice = 1
 elif choice == 'All Channels':
     choice = 2
