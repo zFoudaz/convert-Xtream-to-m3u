@@ -9,9 +9,9 @@ lines=['#EXTM3U\n']
 XTREAM_HOST=st.text_input('Enter the host (ex: http://provider.co:80): ').strip()
 XTREAM_USERNAME=st.text_input('Enter your username: ')
 XTREAM_PASSWORD=st.text_input('Enter your password: ')
-choice=st.selectbox('Select the type of channels you want to download:', ('Bein Sports , SSC , AD', 'All Channels', 'Sport Channels'))
+choice=st.selectbox('Select the type of channels you want to download:', ('Bein Sports', 'All Channels', 'Sport Channels'))
 
-if choice == 'Bein Sports , SSC , AD':
+if choice == 'Bein Sports':
     choice = 1
 elif choice == 'All Channels':
     choice = 2
@@ -37,7 +37,7 @@ def run():
 
     def condition(choice , channel):
         if choice == 1:
-            return re.search(r'bein|ssc|AD |ADSport', channel['name'],re.IGNORECASE)
+            return re.search(r'bein', channel['name'],re.IGNORECASE)
         elif choice==2:
             return True
         elif choice==3:
