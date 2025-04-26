@@ -9,15 +9,20 @@ lines=['#EXTM3U\n']
 XTREAM_HOST=st.text_input('Enter the host (ex: http://provider.co:80): ').strip()
 XTREAM_USERNAME=st.text_input('Enter your username: ')
 XTREAM_PASSWORD=st.text_input('Enter your password: ')
-choice=st.selectbox('Select the type of channels you want to download:', ('Bein Sports , SSC , AD', 'All Channels', 'Sport Channels'))
-
+choice=st.selectbox('Select the type of channels you want to download:', ('Bein Sports , SSC , AD', 'All Channels', 'Sport Channels','custom'))
+custom=''
 if choice == 'Bein Sports , SSC , AD':
     choice = 1
 elif choice == 'All Channels':
     choice = 2
 elif choice == 'Sport Channels':
     choice = 3
+elif choice == 'custom':
+    choice = 4
+    custom = st.text_input('Enter the keyword to search for in channel names: ')
 file_name = 'Sports' if choice == 1 or choice == 3 else 'Channels'
+if st.toggle('change file name'):
+    file_name = st.text_input('Enter the file name: ')
 
 def run():
     def get_xtream_channels():
@@ -42,6 +47,8 @@ def run():
             return True
         elif choice==3:
             return re.search(r'sport', channel['name'], re.IGNORECASE)
+        elif choice==4:
+            return re.search(custom, channel['name'], re.IGNORECASE)
 
     channels = get_xtream_channels()
     for channel in channels:
