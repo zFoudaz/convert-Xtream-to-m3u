@@ -4,6 +4,7 @@ from requests import get
 from requests.exceptions import RequestException
 from time import sleep
 import re
+import pandas as pd 
 
 lines=['#EXTM3U\n']
 XTREAM_HOST=st.text_input('Enter the host (ex: http://provider.co:80): ').strip()
@@ -11,6 +12,10 @@ XTREAM_USERNAME=st.text_input('Enter your username: ')
 XTREAM_PASSWORD=st.text_input('Enter your password: ')
 choice=st.selectbox('Select the type of channels you want to download:', ('Bein Sports , SSC , AD', 'All Channels', 'Sport Channels','custom'))
 custom=''
+df={
+    'Channel Name':[],
+    'Channel ID':[],
+}
 if choice == 'Bein Sports , SSC , AD':
     choice = 1
 elif choice == 'All Channels':
@@ -51,22 +56,30 @@ def run():
             return re.search(custom, channel['name'], re.IGNORECASE)
 
     channels = get_xtream_channels()
-    for channel in channels:
-        if condition(choice,channel):
-            lines.append(f"#EXTINF:0,{channel['name']}\n{XTREAM_HOST}/live/{XTREAM_USERNAME}/{XTREAM_PASSWORD}/{channel['stream_id']}.ts\n")
+    global df
+    if channels:
+        for channel in channels:
+            if condition(choice,channel):
+                lines.append(f"#EXTINF:0,{channel['name']}\n{XTREAM_HOST}/live/{XTREAM_USERNAME}/{XTREAM_PASSWORD}/{channel['stream_id']}.ts\n")
+                df['Channel Name'].append(channel['name'])
+                df['Channel ID'].append(channel['stream_id'])
 
-    buffer = io.BytesIO()
-    for line in lines:
-        buffer.write(line.encode("utf-8"))
+        buffer = io.BytesIO()
+        for line in lines:
+            buffer.write(line.encode("utf-8"))
 
-    buffer.seek(0)
-    st.success(f'File created successfully with {len(lines)-1} channels')
-    st.download_button(
-    label=f"Download {file_name}.m3u",
-    data=buffer,
-    file_name=f"{file_name}.m3u",
-    mime="audio/x-mpegurl"
-    )
+        buffer.seek(0)
+        st.success(f'File created successfully with {len(lines)-1} channels')
+        st.download_button(
+        label=f"Download {file_name}.m3u",
+        data=buffer,
+        file_name=f"{file_name}.m3u",
+        mime="audio/x-mpegurl"
+        )
+        df=pd.DataFrame(df)
+        st.dataframe(df)
+    else:
+        st.error("Failed to retrieve channels. Please check your credentials and try again.")
 
 if st.button('save'):
     run()
