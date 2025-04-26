@@ -39,6 +39,7 @@ def run():
             try:
                 response = get(api_url, headers=headers, timeout=10)
                 response.raise_for_status()
+                st.write("Connected to Xtream API successfully.")
                 return response.json()
             except RequestException as e:
                 print(f"Attempt {attempt + 1}/3 : Connection failed - {e} \n make sure you are not using VPN ")
