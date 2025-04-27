@@ -42,7 +42,7 @@ def run():
                 st.write("Connected to Xtream API successfully.")
                 return response.json()
             except RequestException as e:
-                print(f"Attempt {attempt + 1}/3 : Connection failed - {e} \n make sure you are not using VPN ")
+                st.write(f"Attempt {attempt + 1}/3 : Connection failed - {e} \n make sure you are not using VPN ")
                 sleep(5)
         return None
 
@@ -58,7 +58,7 @@ def run():
 
     channels = get_xtream_channels()
     global df
-    if channels:
+    if True:
         for channel in channels:
             if condition(choice,channel):
                 lines.append(f"#EXTINF:0,{channel['name']}\n{XTREAM_HOST}/live/{XTREAM_USERNAME}/{XTREAM_PASSWORD}/{channel['stream_id']}.ts\n")
