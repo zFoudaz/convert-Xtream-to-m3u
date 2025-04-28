@@ -38,8 +38,7 @@ def get_channels():
     try: 
         response = requests.get(url)
         return response.json()
-    except Exception as e:
-        st.error(f"Error fetching channels: {e}")
+    except :
         return None
 
 
