@@ -36,7 +36,8 @@ def get_channels():
     try: 
         response = requests.get(f"{XTREAM_HOST}/player_api.php?username={XTREAM_USERNAME}&password={XTREAM_PASSWORD}&action=get_live_streams")
         return response.json()
-    except:
+    except Exception as e:
+        st.error(f"Error fetching channels: {e}")
         return None
 
 
