@@ -33,8 +33,10 @@ def condition(channel , choice):
         return re.search(custom_search,channel['name'],re.IGNORECASE)
 
 def get_channels():
+    url = f"{XTREAM_HOST}/player_api.php?username={XTREAM_USERNAME}&password={XTREAM_PASSWORD}&action=get_live_streams"
+    st.write(url)
     try: 
-        response = requests.get(f"{XTREAM_HOST}/player_api.php?username={XTREAM_USERNAME}&password={XTREAM_PASSWORD}&action=get_live_streams")
+        response = requests.get(url)
         return response.json()
     except Exception as e:
         st.error(f"Error fetching channels: {e}")
